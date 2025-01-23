@@ -86,17 +86,13 @@ const onLoadBtnClick = async (totalPages) => {
     const lightbox = new SimpleLightbox(".gallery a", { captionsData: 'alt', captionDelay: 250 });
     lightbox.refresh();
 
-    const galleryItem = document.querySelector(".gallery-card");
-    if (galleryItem) {
-      const itemHeight = galleryItem.getBoundingClientRect().height;
-      window.scrollBy({
-        top: itemHeight * 2,
-        left: 0,
-        behavior: "smooth"
-      });
-    }
-  
-    
+    const cardHeight = document.querySelector('.gallery-card').getBoundingClientRect().height;
+
+   
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth'
+    });
     loader.classList.add("is-hidden");
 
     
