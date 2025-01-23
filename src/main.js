@@ -13,6 +13,13 @@ const loadButton = document.querySelector(".load-button");
 let page = 1;
 let query = "";
 
+let lightbox = new SimpleLightbox(".gallery a",
+  {
+    captionsData: 'alt',
+    captionDelay: 250
+  });
+
+
 const onSearchFormSubmit = async (event) => {
   try {
     event.preventDefault();
@@ -51,16 +58,17 @@ const onSearchFormSubmit = async (event) => {
     const galleryMarkup = data.hits.map(el => createGalleryCard(el)).join('');
     galleryEl.innerHTML = galleryMarkup;
 
+    lightbox.refresh();
+
     loader.classList.add("is-hidden");
    
     
     if (totalPages > 1) {
       loadButton.classList.remove("is-hidden");
-      loadButton.addEventListener("click", () => onLoadBtnClick(totalPages));
+      loadButton.onclick = () => onLoadBtnClick(totalPages);
     }
 
-    const lightbox = new SimpleLightbox(".gallery a", { captionsData: 'alt', captionDelay: 250 });
-    lightbox.refresh();
+  
 
     searchFormEl.reset();
   } catch (err) {
@@ -77,14 +85,15 @@ const onLoadBtnClick = async (totalPages) => {
   try {
     page++;
 
+    loadButton.classList.add("is-hidden");
     loader.classList.remove("is-hidden");
 
     const { data } = await fetchImages(query, page);
     const galleryMarkup = data.hits.map(el => createGalleryCard(el)).join('');
     galleryEl.insertAdjacentHTML('beforeend', galleryMarkup);
 
-    const lightbox = new SimpleLightbox(".gallery a", { captionsData: 'alt', captionDelay: 250 });
     lightbox.refresh();
+
 
     const cardHeight = document.querySelector('.gallery-card').getBoundingClientRect().height;
 
@@ -93,6 +102,7 @@ const onLoadBtnClick = async (totalPages) => {
       top: cardHeight * 2,
       behavior: 'smooth'
     });
+
     loader.classList.add("is-hidden");
 
     
@@ -101,12 +111,19 @@ const onLoadBtnClick = async (totalPages) => {
         message: "We're sorry, but you've reached the end of search results.",
         position: "topRight",
       });
-      loadButton.classList.add("is-hidden");
-      loadButton.removeEventListener("click", () => onLoadBtnClick(totalPages));
     }
-  } catch (err) {
+    else {
+       loadButton.classList.remove("is-hidden");
+      }
+    }
+   catch (err) {
     console.log(err);
+     iziToast.error({
+      message: "Something went wrong, please try again later.",
+      position: "topRight",
+    });
     loader.classList.add("is-hidden");
+    loadButton.classList.remove("is-hidden")
   }
 };
 
