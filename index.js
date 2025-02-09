@@ -13,12 +13,10 @@ import{S as n}from"./assets/vendor-DZKIp1cr.js";(function(){const r=document.cre
           </div>
 
           <div class="project-bottom-card">
-            <picture class="project-img">
-              <source
-                  srcset="${r.pct} 1x, ${r.pct2x} 2x"
-              />
-              <img src="${r.pct}" alt="Project image" />
-            </picture>
+           <img class="project-img"
+              srcset="${r.pct} 1x, ${r.pct2x} 2x"
+              src="${r.pct}" 
+              alt="Project image" />
           </div>
         </li>`).join("")}l.innerHTML=d(p);document.addEventListener("DOMContentLoaded",function(){const o=new n(".swiper",{slidesPerView:1,spaceBetween:20,navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},keyboard:{enabled:!0,onlyInViewport:!0},pagination:{el:".swiper-pagination",clickable:!0},mousewheel:{forceToAxis:!0,sensitivity:1,invert:!1},touchEventsTarget:"container",simulateTouch:!0,grabCursor:!0});o.on("slideChange",function(){a.classList.toggle("custom-disabled",o.isBeginning),u.classList.toggle("custom-disabled",o.isEnd)})});
 //# sourceMappingURL=index.js.map
