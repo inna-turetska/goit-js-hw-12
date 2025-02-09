@@ -1,8 +1,24 @@
-import{a as f,S as L,i as l}from"./assets/vendor-DEenWwFD.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))i(e);new MutationObserver(e=>{for(const s of e)if(s.type==="childList")for(const u of s.addedNodes)u.tagName==="LINK"&&u.rel==="modulepreload"&&i(u)}).observe(document,{childList:!0,subtree:!0});function o(e){const s={};return e.integrity&&(s.integrity=e.integrity),e.referrerPolicy&&(s.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?s.credentials="include":e.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function i(e){if(e.ep)return;e.ep=!0;const s=o(e);fetch(e.href,s)}})();const g=(t,r)=>{const o={params:{q:encodeURIComponent(t),key:"48226590-99b6af351d6e3a0b674791be6",per_page:15,page:r,image_type:"photo",orientation:"horizontal",safesearch:!0}};return f.get("https://pixabay.com/api/",o)},p=t=>`
-    <li class="gallery-card">
-      <a href="${t.largeImageURL}" target="_blank">
-        <img class="gallery-img" src="${t.webformatURL}" alt="${t.tags}" />
-      </a>
-      <p>Likes: ${t.likes}  Views: ${t.views}  Comments: ${t.comments}  Downloads: ${t.downloads}</p>
-    </li>`,h=document.querySelector(".search-form"),m=document.querySelector(".gallery"),a=document.querySelector(".loader"),n=document.querySelector(".load-button");let c=1,d="",y=new L(".gallery a",{captionsData:"alt",captionDelay:250});const b=async t=>{try{if(t.preventDefault(),d=t.currentTarget.elements.user_query.value.trim(),d===""){l.error({message:"Please fill the form",position:"topRight"});return}c=1,n.classList.add("is-hidden"),a.classList.remove("is-hidden");const{data:r}=await g(d,c);if(r.total===0){l.error({message:"Sorry, there are no images matching your search query. Please try again!",position:"topRight"}),m.innerHTML="",a.classList.add("is-hidden"),h.reset();return}const o=Math.ceil(r.totalHits/15),i=r.hits.map(e=>p(e)).join("");m.innerHTML=i,y.refresh(),a.classList.add("is-hidden"),o>1&&(n.classList.remove("is-hidden"),n.onclick=()=>w(o)),h.reset()}catch(r){console.log(r),l.error({message:"Something went wrong, please try again later.",position:"topRight"}),a.classList.add("is-hidden")}},w=async t=>{try{c++,n.classList.add("is-hidden"),a.classList.remove("is-hidden");const{data:r}=await g(d,c),o=r.hits.map(e=>p(e)).join("");m.insertAdjacentHTML("beforeend",o),y.refresh();const i=document.querySelector(".gallery-card").getBoundingClientRect().height;window.scrollBy({top:i*2,behavior:"smooth"}),a.classList.add("is-hidden"),c>=t?l.info({message:"We're sorry, but you've reached the end of search results.",position:"topRight"}):n.classList.remove("is-hidden")}catch(r){console.log(r),l.error({message:"Something went wrong, please try again later.",position:"topRight"}),a.classList.add("is-hidden"),n.classList.remove("is-hidden")}};h.addEventListener("submit",b);
+import{S as n}from"./assets/vendor-DZKIp1cr.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))c(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const s of t.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&c(s)}).observe(document,{childList:!0,subtree:!0});function i(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function c(e){if(e.ep)return;e.ep=!0;const t=i(e);fetch(e.href,t)}})();const p=[{pct:"./img/projects/project-1.jpg",pct2x:"./img/projects/project-1@2x.jpg"},{pct:"./img/projects/project-2.jpg",pct2x:"./img/projects/project-2@2x.jpg"},{pct:"./img/projects/project-3.jpg",pct2x:"./img/projects/project-3@2x.jpg"}],l=document.querySelector(".projects-list"),a=document.querySelector(".swiper-button-prev"),u=document.querySelector(".swiper-button-next");function d(o){return o.map(r=>` <li class="projects-cards swiper-slide">
+          <div class="project-top-card">
+            <ul class="project-tags">
+              <li class="project-tag">#react</li>
+              <li class="project-tag">#js</li>
+              <li class="project-tag">#node js</li>
+              <li class="project-tag">#git</li>
+            </ul>
+            <h3 class="projects-text">
+              Programming Across Borders: Ideas, Technologies, Innovations
+            </h3>
+            <a target="_blank" href="https://github.com/SerhiiShevchenkoGRV/ProfIT-project01" class="project-button">See projects</a>
+          </div>
+
+          <div class="project-bottom-card">
+            <picture class="project-img">
+              <source
+                  srcset="${r.pct} 1x, ${r.pct2x} 2x"
+              />
+              <img src="${r.pct}" alt="Project image" />
+            </picture>
+          </div>
+        </li>`).join("")}l.innerHTML=d(p);document.addEventListener("DOMContentLoaded",function(){const o=new n(".swiper",{slidesPerView:1,spaceBetween:20,navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},keyboard:{enabled:!0,onlyInViewport:!0},pagination:{el:".swiper-pagination",clickable:!0},mousewheel:{forceToAxis:!0,sensitivity:1,invert:!1},touchEventsTarget:"container",simulateTouch:!0,grabCursor:!0});o.on("slideChange",function(){a.classList.toggle("custom-disabled",o.isBeginning),u.classList.toggle("custom-disabled",o.isEnd)})});
 //# sourceMappingURL=index.js.map
