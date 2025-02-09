@@ -4,33 +4,51 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Normalize.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.css"
+    />
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
+
   <body>
-    <main>
-      <section class="gallery-section">
-        <div class="container">
-          <form class="search-form">
-            <input
-              class="search-input"
-              type="text"
-              name="user_query"
-              placeholder="Search images..."
-              required
-            />
-            <button class="search-button" type="submit">search</button>
-          </form>
+   <section class="projects section">
+  <div class="projects-cont container">
+    <h2 class="project-title">Projects</h2>
+    <div class="swiper">
+      <ul class="projects-list swiper-wrapper"></ul>
+    </div>
+    <div class="project-swiper-buttons">
+      <button class="swiper-button-prev project-button-prev">
+        <svg width="25" height="24" class="project-icon">
+          <use href="./img/sprite.svg#icon-arrow-left"></use>
+        </svg>
+      </button>
+      <button class="swiper-button-next project-button-next">
+        <svg class="project-icon">
+          <use href="./img/sprite.svg#icon-arrow-right"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-          <ul class="gallery"></ul>
-          <button class="load-button is-hidden" type="button">Load more</button>
-          <p class="loader is-hidden">Loading images,please wait...</p>
-        </div>
-      </section>
-    </main>
-
-    <load src="./partials/footer.html" />
-
-    <script type="module" src="./main.js" defer></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>

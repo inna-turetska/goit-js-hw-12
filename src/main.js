@@ -1,130 +1,89 @@
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css"; 
-import { fetchImages } from './js/pixabay-api.js';
-import { createGalleryCard } from "./js/render-functions.js";
-
-const searchFormEl = document.querySelector(".search-form");
-const galleryEl = document.querySelector(".gallery");
-const loader = document.querySelector(".loader");
-const loadButton = document.querySelector(".load-button");
-
-let page = 1;
-let query = "";
-
-let lightbox = new SimpleLightbox(".gallery a",
-  {
-    captionsData: 'alt',
-    captionDelay: 250
-  });
+import Swiper from 'swiper/bundle';
 
 
-const onSearchFormSubmit = async (event) => {
-  try {
-    event.preventDefault();
-
-    query = event.currentTarget.elements.user_query.value.trim();
-
-    if (query === "") {
-      iziToast.error({
-        message: "Please fill the form",
-        position: "topRight",
-      });
-      return;
+const projectImages = [
+    {
+        pct:"./img/projects/project-1.jpg",
+        pct2x: "./img/projects/project-1@2x.jpg",
+    },
+     {
+        pct:"./img/projects/project-2.jpg",
+        pct2x: "./img/projects/project-2@2x.jpg",
+    },
+      {
+        pct:"./img/projects/project-3.jpg",
+        pct2x: "./img/projects/project-3@2x.jpg",
     }
-
-    page = 1;
-    loadButton.classList.add("is-hidden");
-    loader.classList.remove("is-hidden");
-
-    const { data } = await fetchImages(query, page);
-
-    if (data.total === 0) {
-      iziToast.error({
-        message: "Sorry, there are no images matching your search query. Please try again!",
-        position: "topRight",
-      });
-
-      galleryEl.innerHTML = "";
-      loader.classList.add("is-hidden");
-      searchFormEl.reset();
-      return;
-    }
+]
 
 
-    const totalPages = Math.ceil(data.totalHits / 15); 
 
-    const galleryMarkup = data.hits.map(el => createGalleryCard(el)).join('');
-    galleryEl.innerHTML = galleryMarkup;
+const projectCards = document.querySelector(".projects-list")
+const prevButton = document.querySelector('.swiper-button-prev');
+const nextButton = document.querySelector('.swiper-button-next');
 
-    lightbox.refresh();
+function projectGalleryImages(img) {
+    return img.map((image) =>
+        ` <li class="projects-cards swiper-slide">
+          <div class="project-top-card">
+            <ul class="project-tags">
+              <li class="project-tag">#react</li>
+              <li class="project-tag">#js</li>
+              <li class="project-tag">#node js</li>
+              <li class="project-tag">#git</li>
+            </ul>
+            <h3 class="projects-text">
+              Programming Across Borders: Ideas, Technologies, Innovations
+            </h3>
+            <a target="_blank" href="https://github.com/SerhiiShevchenkoGRV/ProfIT-project01" class="project-button">See projects</a>
+          </div>
 
-    loader.classList.add("is-hidden");
-   
+          <div class="project-bottom-card">
+            <picture class="project-img">
+              <source
+                  srcset="${image.pct} 1x, ${image.pct2x} 2x"
+              />
+              <img src="${image.pct}" alt="Project image" />
+            </picture>
+          </div>
+        </li>`
+    ).join("");
+}
+
+
+projectCards.innerHTML = projectGalleryImages(projectImages);
+
+document.addEventListener("DOMContentLoaded", function () {
+    const swiper = new Swiper('.swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        keyboard: {
+            enabled: true,
+            onlyInViewport: true,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        mousewheel: {
+            forceToAxis: true,
+            sensitivity: 1,
+            invert: false
+        },
     
-    if (totalPages > 1) {
-      loadButton.classList.remove("is-hidden");
-      loadButton.onclick = () => onLoadBtnClick(totalPages);
-    }
-
-  
-
-    searchFormEl.reset();
-  } catch (err) {
-    console.log(err);
-    iziToast.error({
-      message: "Something went wrong, please try again later.",
-      position: "topRight",
-    });
-    loader.classList.add("is-hidden");
-  }
-};
-
-const onLoadBtnClick = async (totalPages) => {
-  try {
-    page++;
-
-    loadButton.classList.add("is-hidden");
-    loader.classList.remove("is-hidden");
-
-    const { data } = await fetchImages(query, page);
-    const galleryMarkup = data.hits.map(el => createGalleryCard(el)).join('');
-    galleryEl.insertAdjacentHTML('beforeend', galleryMarkup);
-
-    lightbox.refresh();
-
-
-    const cardHeight = document.querySelector('.gallery-card').getBoundingClientRect().height;
-
-   
-    window.scrollBy({
-      top: cardHeight * 2,
-      behavior: 'smooth'
+        touchEventsTarget: 'container',
+        simulateTouch: true,
+        grabCursor: true,
     });
 
-    loader.classList.add("is-hidden");
-
+    swiper.on('slideChange', function () {
+        
+        prevButton.classList.toggle('custom-disabled', swiper.isBeginning);
+        nextButton.classList.toggle('custom-disabled', swiper.isEnd);
+    });
     
-    if (page >= totalPages) {
-      iziToast.info({
-        message: "We're sorry, but you've reached the end of search results.",
-        position: "topRight",
-      });
-    }
-    else {
-       loadButton.classList.remove("is-hidden");
-      }
-    }
-   catch (err) {
-    console.log(err);
-     iziToast.error({
-      message: "Something went wrong, please try again later.",
-      position: "topRight",
-    });
-    loader.classList.add("is-hidden");
-    loadButton.classList.remove("is-hidden")
-  }
-};
-
-searchFormEl.addEventListener("submit", onSearchFormSubmit);
+})
