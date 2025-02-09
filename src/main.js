@@ -3,16 +3,16 @@ import Swiper from 'swiper/bundle';
 
 const projectImages = [
     {
-        pct:"../img/projects/project-1.jpg",
-        pct2x: "../img/projects/project-1@2x.jpg",
+        pct:"img/projects/project-1.jpg",
+        pct2x: "img/projects/project-1@2x.jpg",
     },
      {
-        pct:"../img/projects/project-2.jpg",
-        pct2x: "../img/projects/project-2@2x.jpg",
+        pct:"img/projects/project-2.jpg",
+        pct2x: "img/projects/project-2@2x.jpg",
     },
       {
-        pct:"../img/projects/project-3.jpg",
-        pct2x: "../img/projects/project-3@2x.jpg",
+        pct:"img/projects/project-3.jpg",
+        pct2x: "img/projects/project-3@2x.jpg",
     }
 ]
 
@@ -39,10 +39,12 @@ function projectGalleryImages(img) {
           </div>
 
           <div class="project-bottom-card">
-           <img class="project-img"
-              srcset="${image.pct} 1x, ${image.pct2x} 2x"
-              src="${image.pct}" 
-              alt="Project image" />
+            <picture class="project-img">
+              <source
+                  srcset="${image.pct} 1x, ${image.pct2x} 2x"
+              />
+              <img src="${image.pct}" alt="Project image" />
+            </picture>
           </div>
         </li>`
     ).join("");
