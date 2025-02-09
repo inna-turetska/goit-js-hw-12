@@ -39,12 +39,10 @@ function projectGalleryImages(img) {
           </div>
 
           <div class="project-bottom-card">
-            <picture class="project-img">
-              <source
-                  srcset="${image.pct} 1x, ${image.pct2x} 2x"
-              />
-              <img src="${image.pct}" alt="Project image" />
-            </picture>
+           <img class="project-img"
+              srcset="${image.pct} 1x, ${image.pct2x} 2x"
+              src="${image.pct}" 
+              alt="Project image" />
           </div>
         </li>`
     ).join("");
